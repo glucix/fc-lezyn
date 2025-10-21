@@ -1,0 +1,1353 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FC Leżyn - Oficjalna Strona Klubu</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', sans-serif;
+            scroll-behavior: smooth;
+        }
+
+        :root {
+            --primary: #0066cc;
+            --gradient-primary: linear-gradient(135deg, #0066cc, #0044aa);
+            --gradient-accent: linear-gradient(135deg, #ffffff, #e6f3ff);
+            --gradient-dark: linear-gradient(135deg, #003366, #004080);
+            --shadow-sm: 0 2px 4px rgba(0,102,204,0.1);
+            --shadow-md: 0 4px 8px rgba(0,102,204,0.2);
+            --shadow-lg: 0 8px 16px rgba(0,102,204,0.3);
+            --border-radius: 12px;
+            --transition-speed: 0.3s;
+            --accent: #ffffff;
+            --text: #003366;
+            --bg: #f0f8ff;
+        }
+
+        body {
+            background: var(--bg);
+            color: var(--text);
+            overflow-x: hidden;
+        }
+
+        .navbar {
+            background: rgba(0, 102, 204, 0.95);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            padding: 1.2rem 0;
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+            transform: translateY(0);
+            box-shadow: var(--shadow-md);
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+            transition: all var(--transition-speed) ease;
+            transition: all var(--transition-speed) ease;
+            box-shadow: var(--shadow-md);
+        }
+
+        .nav-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 2rem;
+            position: relative;
+        }
+
+        .logo {
+            color: white;
+            font-size: 1.8rem;
+            font-weight: 700;
+            text-decoration: none;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            position: relative;
+            padding: 0.5rem 0;
+        }
+
+        .logo::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 2px;
+            background: var(--accent);
+            transform: scaleX(0);
+            transform-origin: right;
+            transition: transform var(--transition-speed) ease;
+        }
+
+        .logo:hover::after {
+            transform: scaleX(1);
+            transform-origin: left;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 1.5rem;
+            align-items: center;
+        }
+
+        .nav-link {
+            color: rgba(255,255,255,0.9);
+            text-decoration: none;
+            font-weight: 500;
+            padding: 0.5rem 1rem;
+            border-radius: var(--border-radius);
+            transition: all var(--transition-speed) ease;
+            position: relative;
+            font-size: 1rem;
+        }
+
+        .nav-link::before {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 0;
+            height: 2px;
+            background: var(--accent);
+            transition: width var(--transition-speed) ease;
+        }
+
+        .nav-link:hover {
+            color: white;
+            background: rgba(255,255,255,0.1);
+        }
+
+        .nav-link:hover::before {
+            width: 80%;
+        }
+
+        .nav-link.highlight {
+            background: var(--accent);
+            color: var(--primary);
+            font-weight: 600;
+            padding: 0.5rem 1.5rem;
+            border-radius: 50px;
+            transition: all var(--transition-speed) ease;
+        }
+
+        .nav-link.highlight:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-md);
+            background: white;
+        }
+
+        .nav-link.active {
+            color: white;
+            background: rgba(255,255,255,0.15);
+        }
+
+        .nav-link.active::before {
+            width: 80%;
+        }
+
+        .nav-links a {
+            color: white;
+            text-decoration: none;
+            font-weight: 500;
+            padding: 0.5rem 1rem;
+            border-radius: var(--border-radius);
+            transition: all var(--transition-speed) ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .nav-links a::before {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 0;
+            height: 2px;
+            background: var(--accent);
+            transition: width var(--transition-speed) ease;
+        }
+
+        .nav-links a:hover {
+            background: rgba(255,255,255,0.1);
+        }
+
+        .nav-links a:hover::before {
+            width: 80%;
+        }
+
+        .nav-links a.active {
+            background: rgba(255,255,255,0.2);
+        }
+
+        .nav-links a.active::before {
+            width: 80%;
+        }
+
+        /* Hero Section */
+        .hero {
+            height: 90vh;
+            background: linear-gradient(rgba(0,0,0,0.7), rgba(0,0,0,0.7)),
+                        url('https://gornikkonin.com.pl/wp-content/uploads/2023/08/skladpodstawowy-111111-1024x683.jpg') center/cover;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            color: white;
+            margin-top: 0;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: var(--gradient-primary);
+            opacity: 0.3;
+            z-index: 1;
+        }
+
+        .hero::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 150px;
+            background: linear-gradient(to top, var(--bg), transparent);
+            z-index: 2;
+        }
+
+        .hero-content {
+            max-width: 800px;
+            padding: 2rem;
+        }
+
+        .hero h1 {
+            font-size: 3.5rem;
+            margin-bottom: 1rem;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
+        }
+
+        .hero p {
+            font-size: 1.2rem;
+            margin-bottom: 2rem;
+        }
+
+        .cta-button {
+            display: inline-block;
+            padding: 1rem 2.5rem;
+            background: var(--gradient-accent);
+            color: #333;
+            text-decoration: none;
+            border-radius: var(--border-radius);
+            font-weight: 600;
+            transition: all var(--transition-speed) ease;
+            box-shadow: var(--shadow-md);
+            position: relative;
+            overflow: hidden;
+            z-index: 1;
+        }
+
+        .cta-button::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: var(--gradient-primary);
+            opacity: 0;
+            z-index: -1;
+            transition: opacity var(--transition-speed) ease;
+        }
+
+        .cta-button:hover {
+            color: white;
+            transform: translateY(-3px);
+            box-shadow: var(--shadow-lg);
+        }
+
+        .cta-button:hover::before {
+            opacity: 1;
+        }
+
+        .cta-button:hover {
+            transform: translateY(-3px);
+        }
+
+        /* News Section */
+        .news-section {
+            max-width: 1200px;
+            margin: 4rem auto;
+            padding: 0 1rem;
+            position: relative;
+        }
+
+        .section-title {
+            text-align: center;
+            margin-bottom: 3rem;
+            color: var(--primary);
+        }
+
+        .news-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+        }
+
+        .news-card {
+            background: white;
+            border-radius: var(--border-radius);
+            overflow: hidden;
+            box-shadow: var(--shadow-md);
+            transition: all var(--transition-speed) ease;
+            border: 1px solid rgba(0,102,204,0.1);
+        }
+
+        .news-card:hover {
+            transform: translateY(-5px);
+            box-shadow: var(--shadow-lg);
+        }
+
+        .news-card img {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+            border-bottom: 2px solid var(--primary);
+        }
+
+        .news-content {
+            padding: 1.5rem;
+        }
+
+        .news-date {
+            color: var(--primary);
+            font-size: 0.9rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .news-title {
+            color: var(--text);
+            font-size: 1.25rem;
+            font-weight: 600;
+            margin-bottom: 1rem;
+            line-height: 1.4;
+        }
+
+        .news-excerpt {
+            color: #666;
+            line-height: 1.6;
+            margin-bottom: 1.5rem;
+        }
+
+        /* Next Match Section */
+        .next-match-section {
+            padding: 4rem 0;
+            background: var(--gradient-dark);
+            color: white;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .next-match-section::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: url('data:image/svg+xml,<svg width="60" height="60" viewBox="0 0 60 60" xmlns="http://www.w3.org/2000/svg"><circle cx="30" cy="30" r="28" fill="none" stroke="rgba(255,255,255,0.1)" stroke-width="2"/></svg>') repeat;
+            opacity: 0.1;
+        }
+
+        .match-card {
+            background: rgba(255,255,255,0.1);
+            border-radius: var(--border-radius);
+            padding: 2rem;
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            box-shadow: var(--shadow-lg);
+            border: 1px solid rgba(255,255,255,0.1);
+        }
+
+        .match-info {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 2rem;
+        }
+
+        .team {
+            text-align: center;
+            flex: 1;
+        }
+
+        .team-logo {
+            width: 120px;
+            height: 120px;
+            object-fit: contain;
+            margin-bottom: 1rem;
+            filter: drop-shadow(0 0 10px rgba(0,102,204,0.3));
+        }
+
+        .team h3 {
+            font-size: 1.5rem;
+            margin: 0;
+            font-weight: 600;
+        }
+
+        .match-details {
+            text-align: center;
+            flex: 2;
+            padding: 0 2rem;
+        }
+
+        .match-date {
+            font-size: 1.2rem;
+            font-weight: 500;
+            margin-bottom: 0.5rem;
+            color: var(--accent);
+        }
+
+        .match-time {
+            font-size: 2rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+        }
+
+        .match-venue {
+            font-size: 1rem;
+            opacity: 0.8;
+            margin-bottom: 1.5rem;
+        }
+
+        .timer {
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+
+        .timer-item {
+            background: rgba(255,255,255,0.1);
+            padding: 1rem;
+            border-radius: var(--border-radius);
+            min-width: 80px;
+        }
+
+        .timer-value {
+            font-size: 2rem;
+            font-weight: 700;
+            display: block;
+            color: var(--accent);
+        }
+
+        .timer-label {
+            font-size: 0.8rem;
+            opacity: 0.8;
+        }
+
+        .ticket-button {
+            display: block;
+            width: 100%;
+            max-width: 300px;
+            margin: 0 auto;
+            padding: 1rem 2rem;
+            background: var(--gradient-accent);
+            color: var(--primary);
+            text-decoration: none;
+            text-align: center;
+            font-weight: 600;
+            border-radius: var(--border-radius);
+            transition: all var(--transition-speed) ease;
+            position: relative;
+            overflow: hidden;
+            z-index: 1;
+        }
+
+        .ticket-button::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: var(--gradient-primary);
+            opacity: 0;
+            z-index: -1;
+            transition: opacity var(--transition-speed) ease;
+        }
+
+        .ticket-button:hover {
+            color: white;
+            transform: translateY(-3px);
+            box-shadow: var(--shadow-lg);
+        }
+
+        .ticket-button:hover::before {
+            opacity: 1;
+        }
+
+        .news-card {
+            background: white;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+            transition: transform 0.3s;
+        }
+
+        .news-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .news-image {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+        }
+
+        .news-content {
+            padding: 1.5rem;
+        }
+
+        .news-date {
+            color: #666;
+            font-size: 0.9rem;
+            margin-bottom: 0.5rem;
+        }
+
+        /* Team Section */
+        .team-section {
+            background: var(--gradient-primary);
+            color: white;
+            padding: 4rem 0;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .team-section::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: url('data:image/svg+xml,<svg width="20" height="20" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><rect width="20" height="20" fill="none"/><circle cx="3" cy="3" r="1" fill="rgba(255,255,255,0.1)"/></svg>') repeat;
+            opacity: 0.1;
+        }
+
+        .team-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+            position: relative;
+            z-index: 1;
+        }
+
+        .team-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 2.5rem;
+        }
+
+        .player-card {
+            background: white;
+            color: var(--text);
+            border-radius: var(--border-radius);
+            overflow: hidden;
+            text-align: center;
+            box-shadow: var(--shadow-md);
+            transition: all var(--transition-speed) ease;
+        }
+
+        .player-image {
+            width: 100%;
+            height: 300px;
+            object-fit: cover;
+        }
+
+        .player-info {
+            padding: 1rem;
+        }
+
+        .player-name {
+            font-weight: bold;
+            margin-bottom: 0.5rem;
+        }
+
+        .player-position {
+            color: #666;
+        }
+
+        /* Footer */
+        .footer {
+            background: #0f3057;
+            color: white;
+            padding: 3rem 0;
+            margin-top: 4rem;
+        }
+
+        .footer-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 1rem;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+        }
+
+        .footer-section h3 {
+            margin-bottom: 1rem;
+        }
+
+        .footer-section p {
+            margin-bottom: 0.5rem;
+        }
+
+        .social-links {
+            display: flex;
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+
+        .social-links a {
+            color: white;
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+
+        .social-links a:hover {
+            color: #ffd700;
+        }
+
+        /* Responsive Design */
+        .menu-toggle {
+            display: none;
+            flex-direction: column;
+            gap: 6px;
+            cursor: pointer;
+            padding: 10px;
+            z-index: 1001;
+        }
+
+        .menu-toggle span {
+            display: block;
+            width: 30px;
+            height: 3px;
+            background-color: white;
+            transition: all 0.3s ease;
+        }
+
+        @media (max-width: 768px) {
+            .menu-toggle {
+                display: flex;
+            }
+
+            .nav-links {
+                position: fixed;
+                top: 0;
+                right: -100%;
+                width: 80%;
+                height: 100vh;
+                background: var(--gradient-primary);
+                flex-direction: column;
+                justify-content: center;
+                align-items: center;
+                padding: 2rem;
+                transition: right 0.3s ease;
+                z-index: 1000;
+            }
+
+            .nav-links.active {
+                right: 0;
+            }
+
+            .nav-links a {
+                font-size: 1.2rem;
+                margin: 1rem 0;
+            }
+
+            .hero h1 {
+                font-size: 2rem;
+                padding: 0 1rem;
+            }
+
+            .hero p {
+                font-size: 1rem;
+                padding: 0 1rem;
+            }
+
+            .match-info {
+                flex-direction: column;
+                gap: 2rem;
+            }
+
+            .team-logo {
+                width: 80px;
+                height: 80px;
+            }
+
+            .match-details {
+                padding: 1rem 0;
+            }
+
+            .timer {
+                flex-wrap: wrap;
+                justify-content: center;
+            }
+
+            .timer-item {
+                min-width: 60px;
+            }
+
+            .news-grid {
+                grid-template-columns: 1fr;
+                padding: 0 1rem;
+            }
+
+            .team-grid {
+                grid-template-columns: 1fr;
+                padding: 0 1rem;
+            }
+
+            .stats-grid {
+                grid-template-columns: 1fr;
+                padding: 0 1rem;
+            }
+
+            .stats-card {
+                margin-bottom: 2rem;
+            }
+
+            .chart-container {
+                height: 250px;
+            }
+
+            .section-title {
+                font-size: 2rem;
+                padding: 0 1rem;
+            }
+
+            .footer-container {
+                grid-template-columns: 1fr;
+                text-align: center;
+                gap: 2rem;
+            }
+
+            .social-links {
+                justify-content: center;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .hero h1 {
+                font-size: 1.75rem;
+            }
+
+            .match-time {
+                font-size: 1.5rem;
+            }
+
+            .timer-item {
+                min-width: 50px;
+                padding: 0.75rem;
+            }
+
+            .timer-value {
+                font-size: 1.5rem;
+            }
+
+            .timer-label {
+                font-size: 0.7rem;
+            }
+
+            .news-card {
+                margin: 0 1rem;
+            }
+
+            .player-card {
+                margin: 0 1rem;
+            }
+
+            .gallery-grid {
+                grid-template-columns: 1fr;
+                padding: 0 1rem;
+            }
+        }
+
+        /* Gallery Section */
+        .gallery-section {
+            padding: 6rem 0;
+            background: var(--bg);
+        }
+
+        .gallery-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1.5rem;
+            padding: 0 2rem;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .gallery-item {
+            position: relative;
+            border-radius: var(--border-radius);
+            overflow: hidden;
+            aspect-ratio: 4/3;
+            cursor: pointer;
+            box-shadow: var(--shadow-md);
+            transition: transform var(--transition-speed) ease;
+        }
+
+        .gallery-item:hover {
+            transform: translateY(-5px);
+            box-shadow: var(--shadow-lg);
+        }
+
+        .gallery-item img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform var(--transition-speed) ease;
+        }
+
+        .gallery-overlay {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            padding: 1.5rem;
+            background: linear-gradient(to top, rgba(0,0,0,0.8), transparent);
+            color: white;
+            transform: translateY(100%);
+            transition: transform var(--transition-speed) ease;
+        }
+
+        .gallery-overlay h3 {
+            font-size: 1.2rem;
+            margin-bottom: 0.5rem;
+            font-weight: 600;
+        }
+
+        .gallery-overlay p {
+            font-size: 0.9rem;
+            opacity: 0.8;
+        }
+
+        .gallery-item:hover img {
+            transform: scale(1.1);
+        }
+
+        .gallery-item:hover .gallery-overlay {
+            transform: translateY(0);
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar">
+        <div class="nav-container">
+            <a href="#" class="logo">FC LEŻYN</a>
+            <div class="menu-toggle">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+            <div class="nav-links">
+                <a href="#aktualnosci" class="nav-link">Aktualności</a>
+                <a href="#druzyna" class="nav-link">Drużyna</a>
+                <a href="#mecze" class="nav-link">Mecze</a>
+                <a href="#statystyki" class="nav-link">Statystyki</a>
+                <a href="#galeria" class="nav-link">Galeria</a>
+                <a href="#klub" class="nav-link">O Klubie</a>
+                <a href="#bilety" class="nav-link highlight">Kup Bilet</a>
+                <a href="#kontakt">Kontakt</a>
+            </div>
+        </div>
+    </nav>
+
+    <section class="hero">
+        <div class="hero-content">
+            <h1>FC lezyn</h1>
+            <p>Tradycja, Pasja, Ambicja - od 2025 roku</p>
+            <a href="#bilety" class="cta-button">KUP BILET NA MECZ</a>
+        </div>
+    </section>
+
+    <section class="stats-section" id="statystyki">
+        <div class="stats-container">
+            <h2 class="section-title">Statystyki Sezonu</h2>
+            <div class="stats-grid">
+                <div class="stats-card">
+                    <h3>Wyniki ostatnich meczy</h3>
+                    <div class="chart-container">
+                        <canvas id="resultsChart"></canvas>
+                    </div>
+                </div>
+                <div class="stats-card">
+                    <h3>Bramki w sezonie</h3>
+                    <div class="chart-container">
+                        <canvas id="goalsChart"></canvas>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="next-match-section">
+        <div class="container">
+            <h2 class="section-title">Następny Mecz</h2>
+            <div class="match-card">
+                <div class="match-info">
+                    <div class="team team-home">
+                        <img src="fclezyn.jpg" alt="FC Leżyn" class="team-logo">
+                        <h3>FC Leżyn</h3>
+                    </div>
+                    <div class="match-details">
+                        <div class="match-date">Sobota, 30.06.2025</div>
+                        <div class="match-time">17:00</div>
+                        <div class="match-venue">Stadion Miejski w Leżynie</div>
+                        <div class="timer" id="matchTimer">
+                            <div class="timer-item">
+                                <span class="timer-value" id="days">00</span>
+                                <span class="timer-label">DNI</span>
+                            </div>
+                            <div class="timer-item">
+                                <span class="timer-value" id="hours">00</span>
+                                <span class="timer-label">GODZ</span>
+                            </div>
+                            <div class="timer-item">
+                                <span class="timer-value" id="minutes">00</span>
+                                <span class="timer-label">MIN</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="team team-away">
+                        <img src="https://gornikkonin.com.pl/wp-content/uploads/2020/06/Herb-KSG.png" alt="Przeciwnik" class="team-logo">
+                        <h3>Gornik Konin</h3>
+                    </div>
+                </div>
+                <a href="#" class="ticket-button">KUP BILET</a>
+            </div>
+        </div>
+    </section>
+
+    <section class="news-section" id="aktualnosci">
+        <h2 class="section-title">Aktualności</h2>
+        <div class="news-grid">
+            <article class="news-card">
+                <img src="https://gotowinasport.sts.pl/wp-content/uploads/2025/01/najlepszy-trener-na-swiecie.jpg" alt="Aktualność 1" class="news-image">
+                <div class="news-content">
+                    <div class="news-date">21.10.2025</div>
+                    <h3>Nowy trener na rejonach łezyna</h3>
+                    <p>Pragniemy przywitac nowego trenera fc lezyn Michala M</p>
+                </div>
+            </article>
+            <article class="news-card">
+                <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS7jamJEl25_6fZ2UKLx1zo4bDs1tsxEZkjiQ&s" alt="Aktualność 2" class="news-image">
+                <div class="news-content">
+                    <div class="news-date">20.10.2025</div>
+                    <h3>Nowy zawodnik dołącza do zespołu</h3>
+                    <p>Z przyjemnością informujemy o pozyskaniu nowego napastnika...</p>
+                </div>
+            </article>
+            <article class="news-card">
+                <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRHDXYNcu6clqxxLtFO-x9IDSPG5jQdjd0RCw&s" alt="Aktualność 3" class="news-image">
+                <div class="news-content">
+                    <div class="news-date">19.10.2025</div>
+                    <h3>Przygotowania do kolejnego meczu</h3>
+                    <p>Zespół intensywnie trenuje przed zbliżającym się spotkaniem...</p>
+                </div>
+            </article>
+        </div>
+    </section>
+
+    <section class="team-section" id="druzyna">
+        <div class="team-container">
+            <h2 class="section-title">MVP</h2>
+            <div class="team-grid">
+                <div class="player-card">
+                    <img src="https://ichef.bbci.co.uk/ace/standard/2560/cpsprodpb/3e28/live/deb24530-a8fe-11f0-ab74-91eb43b2b68c.jpg" alt="Zawodnik 1" class="player-image">
+                    <div class="player-info">
+                        <div class="player-">Krol strzelcow</div>
+                        <div class="player-name">Igor S</div>
+                        <div class="player-position">12 goli</div>
+                    </div>
+                </div>
+            </div>
+            <div class="team-grid">
+                <div class="player-card">
+                    <img src="https://www.realmadryt.pl/static/images/photo/06d4ed6d-358f-4cfc-8fc1-c507e9a30c2a.png" alt="Zawodnik 1" class="player-image">
+                    <div class="player-info">
+                        <div class="player-">Krol asyst</div>
+                        <div class="player-name">Jakub S</div>
+                        <div class="player-position">9 asyst</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="gallery-section" id="galeria">
+        <div class="container">
+            <h2 class="section-title">Galeria</h2>
+            <div class="gallery-grid">
+                <div class="gallery-item">
+                    <img src="https://junior.weszlo.com/wp-content/uploads/2022/02/20072021_szo_34-e1643714511525.jpg" alt="Galeria 1" loading="lazy">
+                    <div class="gallery-overlay">
+                        <h3>Trening drużyny</h3>
+                        <p>20.10.2025</p>
+                    </div>
+                </div>
+                <div class="gallery-item">
+                    <img src="https://gornikkonin.com.pl/wp-content/uploads/2024/12/461289399_990918766379732_1079021387437509506_n-1-3-585x470.jpg" alt="Galeria 2" loading="lazy">
+                    <div class="gallery-overlay">
+                        <h3>Mecz z Górnikiem</h3>
+                        <p>15.10.2025</p>
+                    </div>
+                </div>
+                <div class="gallery-item">
+                    <img src="https://www.lm.pl/media/foto/555158-historyczny-moment-gornik-konin-melduje-sie-w-iv-lidze.webp" alt="Galeria 3" loading="lazy">
+                    <div class="gallery-overlay">
+                        <h3>Spotkanie z fanami</h3>
+                        <p>10.10.2025</p>
+                    </div>
+                </div>
+                <div class="gallery-item">
+                    <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQv1KMIfaEfy_ZAAxhArhrVHhnVIJzYV_nDuQ&s" alt="Galeria 4" loading="lazy">
+                    <div class="gallery-overlay">
+                        <h3>Konferencja prasowa</h3>
+                        <p>05.10.2025</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer class="footer">
+        <div class="footer-container">
+            <div class="footer-section">
+                <h3>Fc lezyn</h3>
+                <p>ul. Sportowa 1</p>
+                <p>62-510 Konin</p>
+                <p>Tel: +48 63 XXX XX XX</p>
+                <p>Email: kontakt@fclezyn.pl</p>
+            </div>
+            <div class="footer-section">
+                <h3>Śledź nas</h3>
+                <div class="social-links">
+                    <a href="#">Facebook</a>
+                    <a href="#">Twitter</a>
+                    <a href="#">Instagram</a>
+                    <a href="#">YouTube</a>
+                </div>
+            </div>
+            <div class="footer-section">
+                <h3>Szybkie linki</h3>
+                <p><a href="#" style="color: white; text-decoration: none;">Bilety</a></p>
+                <p><a href="#" style="color: white; text-decoration: none;">Sklep kibica</a></p>
+                <p><a href="#" style="color: white; text-decoration: none;">Historia klubu</a></p>
+                <p><a href="#" style="color: white; text-decoration: none;">Akademia</a></p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Animacje przy scrollowaniu
+        gsap.registerPlugin(ScrollTrigger);
+
+        // Animacja nagłówków sekcji
+        gsap.utils.toArray('.section-title').forEach(title => {
+            gsap.from(title, {
+                scrollTrigger: {
+                    trigger: title,
+                    start: "top 80%",
+                    end: "bottom 20%",
+                    toggleActions: "play none none reverse"
+                },
+                opacity: 0,
+                y: 50,
+                duration: 1
+            });
+        });
+
+        // Animacja kart z nowościami
+        gsap.utils.toArray('.news-card').forEach(card => {
+            gsap.from(card, {
+                scrollTrigger: {
+                    trigger: card,
+                    start: "top 80%",
+                    end: "bottom 20%",
+                    toggleActions: "play none none reverse"
+                },
+                opacity: 0,
+                y: 30,
+                duration: 0.8,
+                stagger: 0.2
+            });
+        });
+
+        // Chowanie/pokazywanie nawigacji przy scrollowaniu
+        let lastScroll = 0;
+        window.addEventListener('scroll', () => {
+            const currentScroll = window.pageYOffset;
+            const navbar = document.querySelector('.navbar');
+            
+            if (currentScroll <= 0) {
+                navbar.classList.remove('hidden');
+                return;
+            }
+            
+            if (currentScroll > lastScroll && !navbar.classList.contains('hidden')) {
+                navbar.classList.add('hidden');
+            } else if (currentScroll < lastScroll && navbar.classList.contains('hidden')) {
+                navbar.classList.remove('hidden');
+            }
+            
+            lastScroll = currentScroll;
+        });
+
+        // Wykresy z Chart.js
+        const resultsCtx = document.getElementById('resultsChart').getContext('2d');
+        const goalsCtx = document.getElementById('goalsChart').getContext('2d');
+
+        // Wykres wyników
+        new Chart(resultsCtx, {
+            type: 'line',
+            data: {
+                labels: ['Kolejka 1', 'Kolejka 2', 'Kolejka 3'],
+                datasets: [{
+                    label: 'Punkty',
+                    data: [3, 3, 3],
+                    borderColor: '#ffd700',
+                    backgroundColor: 'rgba(255, 215, 0, 0.1)',
+                    tension: 0.4,
+                    fill: true
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        max: 4,
+                        grid: {
+                            color: 'rgba(255, 255, 255, 0.1)'
+                        }
+                    },
+                    x: {
+                        grid: {
+                            color: 'rgba(255, 255, 255, 0.1)'
+                        }
+                    }
+                },
+                plugins: {
+                    legend: {
+                        display: false
+                    }
+                }
+            }
+        });
+
+        // Wykres bramek
+        new Chart(goalsCtx, {
+            type: 'bar',
+            data: {
+                labels: ['Strzelone', 'Stracone'],
+                datasets: [{
+                    label: 'Bramki',
+                    data: [46, 26],
+                    backgroundColor: ['#4CAF50', '#f44336'],
+                    borderRadius: 5
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        grid: {
+                            color: 'rgba(255, 255, 255, 0.1)'
+                        }
+                    },
+                    x: {
+                        grid: {
+                            display: false
+                        }
+                    }
+                },
+                plugins: {
+                    legend: {
+                        display: false
+                    }
+                }
+            }
+        });
+
+        // Animacja liczb
+        const animateValue = (element, start, end, duration) => {
+            let startTimestamp = null;
+            const step = (timestamp) => {
+                if (!startTimestamp) startTimestamp = timestamp;
+                const progress = Math.min((timestamp - startTimestamp) / duration, 1);
+                element.textContent = Math.floor(progress * (end - start) + start);
+                if (progress < 1) {
+                    window.requestAnimationFrame(step);
+                }
+            };
+            window.requestAnimationFrame(step);
+        };
+
+        // Przykład animacji statystyk
+        document.querySelectorAll('.stat-number').forEach(stat => {
+            const finalValue = parseInt(stat.getAttribute('data-value'));
+            animateValue(stat, 0, finalValue, 2000);
+        });
+
+        // Licznik czasu do meczu
+        function updateMatchTimer() {
+            const matchDate = new Date('2026-06-30T17:00:00');
+            const now = new Date();
+            const diff = matchDate - now;
+
+            if (diff > 0) {
+                const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+                const hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+                const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+
+                document.getElementById('days').textContent = days.toString().padStart(2, '0');
+                document.getElementById('hours').textContent = hours.toString().padStart(2, '0');
+                document.getElementById('minutes').textContent = minutes.toString().padStart(2, '0');
+            }
+        }
+
+        // Aktualizuj timer co minutę
+        updateMatchTimer();
+        setInterval(updateMatchTimer, 60000);
+
+        // Dodatkowe animacje GSAP
+        gsap.from('.match-card', {
+            scrollTrigger: {
+                trigger: '.match-card',
+                start: 'top 80%',
+                end: 'bottom 20%',
+                toggleActions: 'play none none reverse'
+            },
+            y: 50,
+            opacity: 0,
+            duration: 1
+        });
+
+        gsap.from('.team', {
+            scrollTrigger: {
+                trigger: '.match-card',
+                start: 'top 80%',
+                end: 'bottom 20%',
+                toggleActions: 'play none none reverse'
+            },
+            scale: 0.8,
+            opacity: 0,
+            duration: 1,
+            stagger: 0.2
+        });
+
+        gsap.from('.timer-item', {
+            scrollTrigger: {
+                trigger: '.match-card',
+                start: 'top 80%',
+                end: 'bottom 20%',
+                toggleActions: 'play none none reverse'
+            },
+            y: 30,
+            opacity: 0,
+            duration: 0.8,
+            stagger: 0.1
+        });
+
+        // Animacja tła sekcji
+        gsap.to('.next-match-section::before', {
+            scrollTrigger: {
+                trigger: '.next-match-section',
+                start: 'top center',
+                end: 'bottom center',
+                scrub: 1
+            },
+            backgroundPosition: '100% 100%',
+            ease: 'none'
+        });
+
+        // Mobilne menu
+        const menuToggle = document.querySelector('.menu-toggle');
+        const navLinksContainer = document.querySelector('.nav-links');
+        
+        menuToggle.addEventListener('click', () => {
+            navLinksContainer.classList.toggle('active');
+            menuToggle.classList.toggle('active');
+            
+            // Animacja przycisku menu
+            const spans = menuToggle.querySelectorAll('span');
+            if (menuToggle.classList.contains('active')) {
+                spans[0].style.transform = 'rotate(45deg) translate(8px, 8px)';
+                spans[1].style.opacity = '0';
+                spans[2].style.transform = 'rotate(-45deg) translate(7px, -7px)';
+            } else {
+                spans[0].style.transform = 'none';
+                spans[1].style.opacity = '1';
+                spans[2].style.transform = 'none';
+            }
+        });
+
+        // Zamykanie menu po kliknięciu w link
+        document.querySelectorAll('.nav-links a').forEach(link => {
+            link.addEventListener('click', () => {
+                navLinksContainer.classList.remove('active');
+                menuToggle.classList.remove('active');
+                const spans = menuToggle.querySelectorAll('span');
+                spans[0].style.transform = 'none';
+                spans[1].style.opacity = '1';
+                spans[2].style.transform = 'none';
+            });
+        });
+
+        // Interaktywne menu
+        const navLinks = document.querySelectorAll('.nav-links a');
+        const sections = document.querySelectorAll('section[id]');
+
+        window.addEventListener('scroll', () => {
+            let current = '';
+            sections.forEach(section => {
+                const sectionTop = section.offsetTop;
+                const sectionHeight = section.clientHeight;
+                if (pageYOffset >= sectionTop - 200) {
+                    current = section.getAttribute('id');
+                }
+            });
+
+            navLinks.forEach(link => {
+                link.classList.remove('active');
+                if (link.getAttribute('href').substring(1) === current) {
+                    link.classList.add('active');
+                }
+            });
+        });
+    </script>
+</body>
+</html>
